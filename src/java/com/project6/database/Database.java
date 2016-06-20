@@ -1,11 +1,15 @@
 package com.project6.database;
 
 import com.project6.model.domain.User;
+import com.project6.model.domain.Username;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Created by RottsiK on 20.06.2016.
+ * Created by Baba on 20.06.2016.
  */
 public class Database implements IDatabase {
 
@@ -29,6 +33,43 @@ public class Database implements IDatabase {
     }
 
     public Boolean Login(User user) {
-        return null;
+
+        boolean pruefen = false;
+        try {
+            preparedStatement = connect.prepareStatement("SELECT Username, Passwort FROM tbl_lehrer WHERE (Username=?)");
+            preparedStatement.setString(1, user.getUsernameRaw());
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.getString("Username").equals(user.getPasswordRaw())) {
+                System.out.println("Übereinstimmung");
+                pruefen = true;
+            } else {
+                System.out.println("Falsch");
+                pruefen = false;
+            }
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return pruefen;
     }
+
+
+    public Map<String, String> ergebnis() {
+
+        try {
+            connect.prepareStatement("");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        Map<String, String> stringStringMap = new HashMap<String, String>();
+        stringStringMap.put("peter", "maffai");
+
+        return stringStringMap;
+    }
+
 }
