@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <AnchorPane maxHeight="200.0" maxWidth="200.0" minHeight="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0"
-            xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1">
+            xmlns="http://javafx.com/javafx/8.0.45">
     <children>
         <Rectangle fill="#282828" height="200.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0"/>
         <Label layoutX="12.0" layoutY="14.0" prefHeight="52.0" prefWidth="177.0"
