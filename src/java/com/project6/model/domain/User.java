@@ -8,9 +8,9 @@ public class User {
     private Username username;
     private Password password;
 
-    public User(Username username, Password password) {
-        this.username = username;
-        this.password = password;
+    public User(String username, String password) {
+        this.username = new Username(username);
+        this.password = new Password(password);
     }
 
     public String getUsernameRaw() {
