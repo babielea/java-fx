@@ -11,15 +11,20 @@ public class Database implements IDatabase {
 
     private final String DB_USERNAME = "root";
     private final String DB_PASSWORD = "toor";
+    private final String DB_HOST = "localhost:3306";
 
     private Connection connect = null;
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
 
+    public Database() throws SQLException, ClassNotFoundException {
+        Initialize();
+    }
+
     public void Initialize() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
-        connect = DriverManager.getConnection("jdbc:mysql://localhost/feedback?user="+ DB_USERNAME
+        connect = DriverManager.getConnection("jdbc:mysql://" + DB_HOST + "/didakt?user=" + DB_USERNAME
                 + "&password=" + DB_PASSWORD);
     }
 
