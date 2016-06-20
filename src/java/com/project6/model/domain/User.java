@@ -8,18 +8,20 @@ public class User {
     private Username username;
     private Password password;
 
-    public User(String username, String password) {
-        try {
-            this.username = new Username(username);
-        } catch (InvalidFormatException e) {
-            System.out.println("Wrong username format: " + e.getMessage());
-        }
-        try {
-            this.password = new Password(password);
-        } catch (InvalidFormatException e) {
-            System.out.println("Wrong password format: " + e.getMessage());
-        }
+    public User(Username username, Password password) {
+        this.username = username;
+        this.password = password;
     }
+
+    public String getUsernameRaw() {
+        return username.getUsernameValue();
+    }
+
+
+    public String getPasswordRaw() {
+        return password.getPasswordValue();
+    }
+
 
     public Username getUsername() {
         return username;
