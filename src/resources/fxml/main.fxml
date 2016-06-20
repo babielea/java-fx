@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<GridPane fx:id="container" alignment="center" hgap="10" maxHeight="300.0" maxWidth="400.0" minHeight="300.0"
+          minWidth="400.0" onKeyPressed="#onAnyKeyPressedHandler" prefHeight="300.0" prefWidth="400.0"
+          stylesheets="/css/main.css" vgap="10" xmlns="http://javafx.com/javafx/8.0.25"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project6.gui.GUIController">
+    <children>
+        <AnchorPane prefHeight="300.0" prefWidth="400.0">
+            <children>
+                <Rectangle fill="#282828" height="300.0" stroke="BLACK" strokeType="INSIDE" width="400.0"/>
+                <AnchorPane layoutX="76.0" layoutY="89.0">
+                    <children>
+                        <PasswordField fx:id="valuePassword" layoutX="100.0" layoutY="51.0"/>
+                        <TextField fx:id="valueUsername" layoutX="100.0" layoutY="18.0"/>
+                        <Label layoutX="13.0" layoutY="22.0" text="Benutzername" textFill="WHITE"/>
+                        <Label layoutX="40.0" layoutY="55.0" text="Password" textFill="WHITE"/>
+                        <Button layoutX="177.0" layoutY="98.0" mnemonicParsing="false" onMouseClicked="#onConfirmClick"
+                                text="Bestätigen"/>
+                        <Button layoutX="79.0" layoutY="98.0" mnemonicParsing="false" onMouseClicked="#onResetClick"
+                                text="Zurücksetzen"/>
+                    </children>
+                </AnchorPane>
+                <Label layoutX="136.0" layoutY="28.0" text="Anmeldung" textFill="#d0d0d0">
+                    <font>
+                        <Font size="25.0"/>
+                    </font>
+                </Label>
+                <Button layoutX="353.0" layoutY="269.0" mnemonicParsing="false" onMouseClicked="#onHelpClick"
+                        text="Hilfe"/>
+            </children>
+        </AnchorPane>
+    </children>
+</GridPane>
