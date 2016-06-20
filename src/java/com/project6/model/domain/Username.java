@@ -5,28 +5,17 @@ package com.project6.model.domain;
  */
 public class Username {
 
-    private String rawValue;
-    private String cleanValue;
+    private String usernameValue;
 
-    public Username(String rawValue) throws InvalidFormatException {
-        this.rawValue = rawValue;
-        this.cleanValue = assertValue();
+    public Username(String usernameValue) {
+        this.usernameValue = usernameValue;
     }
 
-    private String assertValue() throws InvalidFormatException {
-        if(rawValue.isEmpty()) throw new InvalidFormatException("Name darf nicht leer sein");
-        return rawValue;
+    public String getUsernameValue() {
+        return usernameValue;
     }
 
-    public String getRawValue() {
-        return rawValue;
-    }
-
-    public void setRawValue(String rawValue) {
-        this.rawValue = rawValue;
-    }
-
-    public String getCleanValue() {
-        return cleanValue;
+    public void setUsernameValue(String usernameValue) {
+        this.usernameValue = usernameValue;
     }
 }

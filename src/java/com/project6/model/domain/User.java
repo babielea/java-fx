@@ -9,17 +9,19 @@ public class User {
     private Password password;
 
     public User(String username, String password) {
-        try {
-            this.username = new Username(username);
-        } catch (InvalidFormatException e) {
-            System.out.println("Wrong username format: " + e.getMessage());
-        }
-        try {
-            this.password = new Password(password);
-        } catch (InvalidFormatException e) {
-            System.out.println("Wrong password format: " + e.getMessage());
-        }
+        this.username = new Username(username);
+        this.password = new Password(password);
     }
+
+    public String getUsernameRaw() {
+        return username.getUsernameValue();
+    }
+
+
+    public String getPasswordRaw() {
+        return password.getPasswordValue();
+    }
+
 
     public Username getUsername() {
         return username;
