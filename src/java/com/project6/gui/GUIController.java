@@ -1,5 +1,6 @@
 package com.project6.gui;
 
+import com.project6.model.dao.UserDAO;
 import com.project6.model.domain.User;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -50,6 +51,8 @@ public class GUIController {
     public void onConfirmClick() {
         System.out.println("Login with credentials: Username=" + valueUsername.getText() + ";Password=" + valuePassword.getText());
         User user = new User(valueUsername.getText(), valuePassword.getText());
+        UserDAO peter = new UserDAO(user);
+        peter.checkForLogin();
 
         Stage stage = new Stage();
         stage.setTitle("Autentifizierung");
