@@ -11,7 +11,7 @@ public class Database {
     private static Connection connection = makeConnection();
 
     private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "toor";
+    private static final String DB_PASSWORD = "";
     private static final String DB_HOST = "localhost:3306";
 
     public static Connection getInstance() {
@@ -26,7 +26,7 @@ public class Database {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             return DriverManager.getConnection("jdbc:mysql://" + DB_HOST + "/didakt?user=" + DB_USERNAME
-                    + "&password=" + DB_PASSWORD);
+                    + "&password=" + DB_PASSWORD+"&serverTimezone=UTC");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
