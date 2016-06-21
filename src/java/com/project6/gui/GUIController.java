@@ -1,7 +1,9 @@
 package com.project6.gui;
 
-import com.project6.gui.util.ProgressBarHelper;
 import com.project6.model.domain.User;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -43,10 +46,12 @@ public class GUIController {
   }
 
 
-  @FXML
-  public void onConfirmClick() {
-    System.out.println("Login with credentials: Username=" + valueUsername.getText() + ";Password=" + valuePassword.getText());
-    User user = new User(valueUsername.getText(), valuePassword.getText());
+
+    public void onConfirmClick() {
+        System.out.println("Login with credentials: Username=" + valueUsername.getText() + ";Password=" + valuePassword.getText());
+        User user = new User(valueUsername.getText(), valuePassword.getText());
+        UserDAO peter = new UserDAO(user);
+        peter.checkForLogin();
 
     Stage stage = new Stage();
     stage.setTitle("Autentifizierung");
