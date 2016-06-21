@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /**
+ * Hilfsklasse für die Dateibearbeitung
  * Created by RottsiK on 21.06.2016.
  */
 public class FileManager {
@@ -28,7 +29,26 @@ public class FileManager {
         if (!new File(filename).exists())
             throw new IllegalArgumentException("Die angegebene Datei konnte nicht gefunden werden.");
 
-        return Files.readAllLines(Paths.get(filename), StandardCharsets.ISO_8859_1);
+        return Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Liest den kompletten Inhalt aus der Datei und gibt diesen als String zurück
+     * @param filename Dateiname der zu lesenden Datei
+     * @return Inhalt der Datei
+     * @throws IOException
+     */
+    public String getFullFileContent(String filename) throws IOException {
+        java.util.List<String> fileContent =  readFile(filename);
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (String con : fileContent) {
+            stringBuilder.append(con);
+        }
+
+        String content = stringBuilder.toString();
+
+        return content;
     }
 
     /**

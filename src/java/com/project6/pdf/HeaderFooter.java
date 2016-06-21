@@ -62,7 +62,7 @@ public class HeaderFooter extends PdfPageEventHelper {
 
         //Links aktuelles Datum
         ColumnText.showTextAligned(writer.getDirectContent(),
-                Element.ALIGN_LEFT, new Phrase(new SimpleDateFormat("dd.MM.yyyy hh:mm").format(new Date())),
+                Element.ALIGN_LEFT, new Phrase(new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date())),
                 rect.getLeft(), rect.getBottom() - 18, 0);
     }
 }
