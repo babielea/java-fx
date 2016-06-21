@@ -2,10 +2,12 @@ package com.project6.pdf;
 
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.ColumnText;
+import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 import com.sun.org.apache.bcel.internal.util.ClassLoader;
 
+import javax.print.attribute.standard.PagesPerMinute;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,30 +16,23 @@ import java.util.Date;
  * Created by RottsiK on 21.06.2016.
  */
 public class HeaderFooter extends PdfPageEventHelper {
-    Phrase[] header = new Phrase[2];
+    /**
+     * Seitenanzahl
+     */
     private int pagenumber;
 
-    /*public void onOpenDocument(PdfWriter pdfWriter, Document document) {
-        header[0] = new Phrase("Test122");
-    }*/
-
-    public void onChapter(PdfWriter writer, Document document,
-                          float paragraphPosition, Paragraph title) {
-        header[1] = new Phrase(title.getContent());
-        pagenumber = 1;
-    }
-
     /**
-     * Increase the page number.
+     * oStartPage Event, erstellen des Headers
+     *
+     * @param writer   PdfWriter
+     * @param document Document
      */
     public void onStartPage(PdfWriter writer, Document document) {
-        pagenumber++;
-    }
 
-    /**
-     * Adds the header and the footer.
-     */
-    public void onEndPage(PdfWriter writer, Document document) {
+        //TODO: Wenn Zeit ist, dann Logo in Header
+        pagenumber++;
+
+        /*Rectangle rect = writer.getBoxSize("headFooter");
         Image logo = null;
         try {
             logo = Image.getInstance("C:\\Users\\rottsik\\Documents\\IdeaProjects\\java-fx\\src\\resources\\image\\logo_kleint.png");
@@ -47,22 +42,38 @@ public class HeaderFooter extends PdfPageEventHelper {
             e.printStackTrace();
         }
 
-        float t = logo.getAbsoluteX();
-        Chunk chunk = new Chunk(logo, 0, 0);
+        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_RIGHT, new Phrase(new Chunk(logo, 0, 0, true)), rect.getRight(), rect.getTop(),0);*/
+    }
 
+    /**
+     * onEndPage Event, erstellen der Footer
+     *
+     * @param writer   PdfWriter
+     * @param document Document
+     */
+    public void onEndPage(PdfWriter writer, Document document) {
         Rectangle rect = writer.getBoxSize("headFooter");
-        ColumnText.showTextAligned(writer.getDirectContent(),
-                Element.ALIGN_RIGHT, new Phrase(chunk),
-                rect.getRight(), rect.getTop(), 0);
+//        ColumnText.showTextAligned(writer.getDirectContent(),
+//                Element.ALIGN_RIGHT, new Phrase(chunk),
+//                rect.getRight(), rect.getTop(), 0);
 
-        //Mitte Seitenanzahl
-        ColumnText.showTextAligned(writer.getDirectContent(),
-                Element.ALIGN_CENTER, new Phrase(String.format("Seite %d", pagenumber)),
-                (rect.getLeft() + rect.getRight()) / 2, rect.getBottom() - 18, 0);
+        //Wenn true => Dokument ist im Hochformat
+        //Wenn false => Dokument ist im Querformat
+        if (document.getPageSize().getHeight() == PageSize.A4.getHeight()) {
+            //Mitte Seitenanzahl
+            ColumnText.showTextAligned(writer.getDirectContent(),
+                    Element.ALIGN_CENTER, new Phrase(String.format("Seite %d", pagenumber)),
+                    (rect.getLeft() + rect.getRight()) / 2, rect.getBottom() - 25, 0);
+        } else {
+            //Mitte Seitenanzahl
+            ColumnText.showTextAligned(writer.getDirectContent(),
+                    Element.ALIGN_CENTER, new Phrase(String.format("Seite %d", pagenumber)),
+                    (rect.getLeft() + rect.getRight() - 175), rect.getBottom() - 25, 0);
+        }
 
         //Links aktuelles Datum
         ColumnText.showTextAligned(writer.getDirectContent(),
                 Element.ALIGN_LEFT, new Phrase(new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date())),
-                rect.getLeft(), rect.getBottom() - 18, 0);
+                rect.getLeft(), rect.getBottom() - 25, 0);
     }
 }

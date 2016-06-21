@@ -16,18 +16,33 @@ import java.util.Date;
  * Created by RottsiK on 20.06.2016.
  */
 public class PdfCreator {
+
+    /**
+     * Template Datei fuer das Deckblatt
+     */
     private final String TEMPLATE_COVER = "TemplateCover.html";
+
+    /**
+     * Template Datei fuer den Jahresplaner
+     */
     private final String TEMPLATE_JAHRESPLAN = "TemplateJahresplan.html";
+
+    /**
+     * Template Datei fuer die Detailansicht
+     */
     private final String TEMPLATE_DETAILS = "TemplateDetail.html";
 
+    /**
+     * Hilfsklasse fuer die Dateiverwaltung
+     */
     private FileManager fileManager = new FileManager();
 
     public void Start() throws IOException, DocumentException {
 
         Document doc = new Document(PageSize.A4);
         Date today = new Date();
-        //Dateiname z.B. 20160621_Output.pdf
-        OutputStream file = new FileOutputStream(String.format("%tY%tm%td_Output.pdf", today, today, today));
+        //Dateiname z.B. 20160621_output.pdf
+        OutputStream file = new FileOutputStream(String.format("%tY%tm%td_output.pdf", today, today, today));
         PdfWriter writer = PdfWriter.getInstance(doc, file);
 
         //Header und Footer erstellen
@@ -36,6 +51,8 @@ public class PdfCreator {
         writer.setPageEvent(event);
 
         doc.open();
+        doc.addCreator("HHBK PDF-Creator 2016");
+        doc.addAuthor("HHBK");
 
         //Deckblatt erstellen
         //TODO: MUSS GEÄNDERT WERDEN
