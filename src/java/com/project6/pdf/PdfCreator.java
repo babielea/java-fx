@@ -43,6 +43,14 @@ public class PdfCreator {
      */
     private FileManager fileManager = new FileManager();
 
+    /**
+     * Startet die PDF Generierung
+     *
+     * @param lernfelder   Lernfelder
+     * @param dataForCover Deckblatt Daten
+     * @throws IOException
+     * @throws DocumentException
+     */
     public void CreatePDF(List<Lernfeld> lernfelder, DataForCover dataForCover) throws IOException, DocumentException {
 
         Document doc = new Document(PageSize.A4);
@@ -180,7 +188,13 @@ public class PdfCreator {
         htmlWorker.parse(new StringReader(content));
     }
 
-
+    /**
+     * Generiert die DetailÜbersicht aus der Datenbank
+     *
+     * @param document  Document
+     * @param lernfelds Lernfelder
+     * @throws IOException
+     */
     public void GenerateDetail(Document document, List<Lernfeld> lernfelds) throws IOException {
         HTMLWorker htmlWorker = new HTMLWorker(document);
         String content = fileManager.getFullFileContent(TEMPLATE_DETAILS);
@@ -190,18 +204,25 @@ public class PdfCreator {
         for (Lernfeld lernfeld : lernfelds) {
             for (Lernsituation lernsituation : lernfeld.getLernsituationen()) {
                 System.out.println(lernsituation.getName());
+                stringBuilder.append("<table style=\"width:100%\" border=\"1\">");
 
                 stringBuilder.append(GetHTMLCode(String.format("<b>Fach:</b> %s", lernfeld.getFach()), 12, ""));
                 stringBuilder.append(GetHTMLCode(String.format("<b>Lernfeld</b> %s", lernfeld.getLernfeldNumber(), lernfeld.getDescription()), 12, ""));
                 stringBuilder.append(GetHTMLCode(String.format("<b>Lernsituation %d:</b> %s", lernsituation.getLernstationsNo(), lernfeld.getDescription()), 9, ""));
                 stringBuilder.append(GetHTMLCode(String.format("<b>Dauer:</b> %d", lernsituation.getuStunden()), 2, ""));
                 stringBuilder.append(GetHTMLCode(String.format("<b>ID:</b> %d", lernsituation.getLsID()), 1, ""));
-                stringBuilder.append(GetHTMLCode(String.format("<b>Fach:</b> %s", lernsituation.getSzenario()), 12, ""));
+                stringBuilder.append(GetHTMLCode(String.format("<b>Erstellt von:</b> %s<br /><b>Erstellt am:</b> %s", lernsituation.getErsteller(), lernsituation.getCreted()), 12, ""));
+                stringBuilder.append(GetHTMLCode(String.format("<b>Einstiegsszenario:</b> %s", lernsituation.getSzenario()), 12, ""));
+                stringBuilder.append(GetHTMLCode(String.format("<b>Handlungsprodukt/Lernergebnis:</b> %s", lernsituation.getHandlungsprodukt()), 12, ""));
+                stringBuilder.append(GetHTMLCode(String.format("<b>Wesentliche Kopetenzen:</b> %s", lernsituation.getKompetenzen()), 12, ""));
+                stringBuilder.append(GetHTMLCode(String.format("<b>Inhalt:</b> %s", lernsituation.getInhalt()), 12, ""));
+                stringBuilder.append(GetHTMLCode(String.format("<b>Unterrichtsmaterialien:</b> %s <br /><b>Organisatorische Hinweise:</b> %s", lernsituation.getuMaterial(), lernsituation.getOrganisation()), 12, ""));
+
+                stringBuilder.append("</table><br /><br />");
             }
         }
 
-        content = content.replace(Placeholder.FOREACH_LERNSITUATION, "dssadasd");
-        //content = content.replace(Placeholder.FOREACH_LERNSITUATION, stringBuilder.toString());
+        content = content.replace(Placeholder.FOREACH_LERNSTATIONEN, stringBuilder.toString());
         htmlWorker.parse(new StringReader(content));
     }
 
