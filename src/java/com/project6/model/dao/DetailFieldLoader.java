@@ -31,7 +31,8 @@ public class DetailFieldLoader {
         List<Ausbildungsberuf> berufeResults = new ArrayList<>();
 
         try {
-            preparedStatement = connection.prepareStatement("SELECT b.Berufname, l.Username FROM tbl_beruf b JOIN tbl_lehrer l ON b.ID_BLeitung = l.LId;");
+            preparedStatement = connection.prepareStatement("SELECT b.Berufname, l.Username " +
+                    "FROM tbl_beruf b JOIN tbl_lehrer l ON b.ID_BLeitung = l.LId;");
             resultSet = preparedStatement.executeQuery();
 
 
@@ -53,7 +54,9 @@ public class DetailFieldLoader {
         List<Abteilung> abteilungResults = new ArrayList<>();
 
         try {
-            preparedStatement = connection.prepareStatement("SELECT a.Abteilungsname, l.Lehrername FROM tbl_abteilung a JOIN tbl_lehrer l ON a.ID_Leiter = l.LId;");
+            preparedStatement = connection.prepareStatement("SELECT a.Abteilungsname, l.Lehrername" +
+                    " FROM tbl_abteilung a " +
+                    "JOIN tbl_lehrer l ON a.ID_Leiter = l.LId;");
             resultSet = preparedStatement.executeQuery();
 
 
@@ -75,7 +78,9 @@ public class DetailFieldLoader {
         List<Fach> fachResults = new ArrayList<>();
 
         try {
-            preparedStatement = connection.prepareStatement("SELECT f.Bezeichnung, lf.LFNR, lf.Bezeichnung FROM tbl_fach f JOIN tbl_lernfeld lf ON f.Lernbereich = lf.LFID;");
+            preparedStatement = connection.prepareStatement("SELECT f.Bezeichnung, lf.LFNR, lf.Bezeichnung" +
+                    " FROM tbl_fach f " +
+                    "JOIN tbl_lernfeld lf ON f.Lernbereich = lf.LFID;");
             resultSet = preparedStatement.executeQuery();
 
 
@@ -93,12 +98,19 @@ public class DetailFieldLoader {
     }
 
 
-    public List<Lernsituation> getLernsituation() {
+    public List<Lernsituation> getLernsituation(int lfID) {
 
         List<Lernsituation> lsResults = new ArrayList<>();
 
         try {
-            preparedStatement = connection.prepareStatement("SELECT ls.LSNR, ls.Szenario, ls.Handlungsprodukt, ls.Kompetenzen, ls.Inhalte, ls.Umaterial, ls.Organisation, ls.Arbeitstechnik, ln.Art FROM tbl_lernsituation ls JOIN tbl_lernsituationleistungsnachweis lsln ON ls.LSID = lsln.id_lernsituation JOIN tbl_leistungsnachweis ln ON lsln.ID_Leistungsnachweis = ln.LNID;");
+            preparedStatement = connection.prepareStatement("SELECT ls.LSNR, ls.Szenario, ls.Handlungsprodukt, " +
+                    "ls.Kompetenzen, ls.Inhalte, ls.Umaterial, ls.Organisation, ls.Arbeitstechnik, ln.Art,  ls.Ersteller, " +
+                    "ls.Von, ls.Bis, ls.UStunden" +
+                    " FROM tbl_lernsituation ls " +
+                    "JOIN tbl_lernsituationleistungsnachweis lsln ON ls.LSID = lsln.id_lernsituation " +
+                    "JOIN tbl_leistungsnachweis ln ON lsln.ID_Leistungsnachweis = ln.LNID" +
+                    "WHERE (ls.ID_Lernfeld = ?);");
+            preparedStatement.setInt(1, lfID);
             resultSet = preparedStatement.executeQuery();
 
 
@@ -112,13 +124,45 @@ public class DetailFieldLoader {
                 String organisation = resultSet.getString(7);
                 String arbeitstechnik = resultSet.getString(8);
                 String leistungsnachweis = resultSet.getString(9);
-                lsResults.add(new Lernsituation(lsID, szenario, handlungsprodukt, kompetenzen, inhalte, umaterial, organisation, arbeitstechnik, leistungsnachweis));
+                String ersteller = resultSet.getString(10);
+                int von = resultSet.getInt(11);
+                int bis = resultSet.getInt(12);
+                int stunden = resultSet.getInt(13);
+                lsResults.add(new Lernsituation(lsID, szenario, handlungsprodukt, kompetenzen,
+                        inhalte, umaterial, organisation, arbeitstechnik, leistungsnachweis, ersteller, von ,bis, stunden));
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return lsResults;
+    }
+
+
+    public List<Lernfeld> getLernfelder() {
+
+        List<Lernfeld> lfResults = new ArrayList<>();
+
+        try {
+            preparedStatement = connection.prepareStatement("SELECT PraefixName ,LFNR, Bezeichnung, LFDauer ,Start, Ende " +
+                    "FROM tbl_lernfeld " +
+                    "ORDER BY ID_Beruffach;");
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String preName = resultSet.getString(1);
+                int lfNR = resultSet.getInt(2);
+                String bezeichnung = resultSet.getString(3);
+                int dauer = resultSet.getInt(4);
+                int start = resultSet.getInt(5);
+                int ende = resultSet.getInt(6);
+                lfResults.add(new Lernfeld(new ArrayList<Lernsituation>(getLernsituation(lfNR)),preName, lfNR, bezeichnung, dauer, start, ende));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lfResults;
     }
 
 }
