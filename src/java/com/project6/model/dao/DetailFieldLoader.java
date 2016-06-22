@@ -104,18 +104,42 @@ public class DetailFieldLoader {
         return fachResults;
     }
 
+    /**
+     * Liest alle Lernsituationen von einem Lernfeld aus der Datenbank aus.
+     *
+     * @param lfID LernfeldID
+     * @return
+     * @throws SQLException
+     */
     public List<Lernsituation> getLernsituation(int lfID) throws SQLException {
         List<Lernsituation> lsResults = new ArrayList<>();
 
-        String sql = "";
+        String sql = "SELECT ls.Name, ls.LSNR, ls.UStunden, ls.Von, ls.Bis, ls.Szenario, ls.Handlungsprodukt, ls.Kompetenzen, ls.Inhalte, ls.Umaterial, ls.Organisation, ls.Ersteller, ls.Erstellt_am, ls.LSID " +
+                "FROM tbl_lernsituation AS ls " +
+                "WHERE ls.ID_Lernfeld = ? AND ls.Sichtbar = true " +
+                "ORDER BY ls.LSNR;";
 
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, lfID);
-        resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
-            //resultSet.get
-            }
+            String name = resultSet.getString(1);
+            int lernstationNo = resultSet.getInt(2);
+            int uStunden = resultSet.getInt(3);
+            int von = resultSet.getInt(4);
+            int bis = resultSet.getInt(5);
+            String szenario = resultSet.getString(6);
+            String handlungsprodukt = resultSet.getString(7);
+            String kompetenzen = resultSet.getString(8);
+            String inhalt = resultSet.getString(9);
+            String uMaterial = resultSet.getString(10);
+            String organisation = resultSet.getString(11);
+            String ersteller = resultSet.getString(12);
+            String created = resultSet.getString(13);
+            int lsID = resultSet.getInt(14);
+            lsResults.add(new Lernsituation(name, lernstationNo, uStunden, von, bis, szenario, handlungsprodukt, kompetenzen, inhalt, uMaterial, organisation, ersteller, created, lsID));
+        }
         return lsResults;
     }
 
@@ -129,7 +153,7 @@ public class DetailFieldLoader {
      * @throws SQLException
      */
     public DataForCover getDataForCover(int yearOfApprentice, int apprenticeJobID) throws SQLException {
-        DataForCover dataForCoversResult =null;
+        DataForCover dataForCoversResult = null;
 
         String sql = "SELECT " +
                 "b.Berufname," +
@@ -143,7 +167,7 @@ public class DetailFieldLoader {
 
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, apprenticeJobID);
-        resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
             String apprenticeJob = resultSet.getString(1);
@@ -180,7 +204,7 @@ public class DetailFieldLoader {
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, apprenticeJobID);
         preparedStatement.setInt(2, yearOfApprentice);
-        resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
             String description = resultSet.getString(1);
@@ -192,9 +216,7 @@ public class DetailFieldLoader {
             String fach = resultSet.getString(7);
             int lernfeldID = resultSet.getInt(8);
 
-            //TODO: Muss wiede rumgeändert werden
-            //lernfelderResults.add(new Lernfeld(getLernsituation(lernfeldID), description, nameDefault, lfNo, lfDuration, lfStart, lfEnd, fach, lernfeldID));
-            lernfelderResults.add(new Lernfeld(new ArrayList<>(), description, nameDefault, lfNo, lfDuration, lfStart, lfEnd, fach, lernfeldID));
+            lernfelderResults.add(new Lernfeld(getLernsituation(lernfeldID), description, nameDefault, lfNo, lfDuration, lfStart, lfEnd, fach, lernfeldID));
         }
 
         return lernfelderResults;

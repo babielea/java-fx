@@ -75,7 +75,7 @@ public class PdfCreator {
         //Detailansicht
         doc.setPageSize(PageSize.A4);
         doc.newPage();
-        GenerateDetail(doc);
+        GenerateDetail(doc, lernfelder);
 
         doc.close();
     }
@@ -112,6 +112,13 @@ public class PdfCreator {
         htmlWorker.parse(new StringReader(content));
     }
 
+    /**
+     * Generiert den HTML Code für die Jahresübersicht
+     *
+     * @param document   Document
+     * @param lernfelder Alle Lernfelder
+     * @throws IOException
+     */
     private void GenerateJahresplan(Document document, List<Lernfeld> lernfelder) throws IOException {
 
         HTMLWorker htmlWorker = new HTMLWorker(document);
@@ -141,33 +148,79 @@ public class PdfCreator {
                 }
 
                 //Sind die Fächer unterschiedlich, dann generiere das neue Fach
-                if(!previousFach.equalsIgnoreCase(lernfeld.getFach())) {
+                if (!previousFach.equalsIgnoreCase(lernfeld.getFach())) {
                     stringBuilder.append(GetHTMLCode(lernfeld.getFach(), 12, "background-color:lightgreen"));
                     previousFach = lernfeld.getFach();
                 }
             }
 
-            for (Lernsituation lernsituation : lernfeld.getLernsituationen()) {
+            String contentLernfeld = String.format("LF %s: %s (%d UStd)", lernfeld.getLernfeldNumber(),
+                    lernfeld.getDescription(),
+                    lernfeld.getLernfeldDuration());
+            String htmlCodeLernfeld = GetHTMLCode(contentLernfeld, 12, "");
+            stringBuilder.append(htmlCodeLernfeld);
 
+            //Lernsituationen
+            for (Lernsituation lernsituation : lernfeld.getLernsituationen()) {
+                System.out.println(String.format("LS %s.%s: %s (%s UStd)", lernfeld.getLernfeldNumber(),
+                        lernsituation.getLernstationsNo(),
+                        lernsituation.getName(),
+                        lernsituation.getuStunden()));
+                String contentLernsituation = String.format("LS %s.%s: %s (%s UStd)", lernfeld.getLernfeldNumber(),
+                        lernsituation.getLernstationsNo(),
+                        lernsituation.getName(),
+                        lernsituation.getuStunden());
+                String htmlCodeLernsituation = GetHTMLCode(contentLernsituation, lernsituation.getBis(), "");
+                stringBuilder.append(htmlCodeLernsituation);
             }
         }
 
-        content = content.replace(Placeholder.FOREACH_LERNSTATIONEN, stringBuilder.toString());
+        content = content.replace(Placeholder.FOREACH_LERNSITUATION, stringBuilder.toString());
 
         htmlWorker.parse(new StringReader(content));
     }
 
-    public void GenerateDetail(Document document) throws IOException {
+
+    public void GenerateDetail(Document document, List<Lernfeld> lernfelds) throws IOException {
         HTMLWorker htmlWorker = new HTMLWorker(document);
         String content = fileManager.getFullFileContent(TEMPLATE_DETAILS);
+        StringBuilder stringBuilder = new StringBuilder();
 
         //Placeholder ersetzen
+        for (Lernfeld lernfeld : lernfelds) {
+            for (Lernsituation lernsituation : lernfeld.getLernsituationen()) {
+                System.out.println(lernsituation.getName());
 
+                stringBuilder.append(GetHTMLCode(String.format("<b>Fach:</b> %s", lernfeld.getFach()), 12, ""));
+                stringBuilder.append(GetHTMLCode(String.format("<b>Lernfeld</b> %s", lernfeld.getLernfeldNumber(), lernfeld.getDescription()), 12, ""));
+                stringBuilder.append(GetHTMLCode(String.format("<b>Lernsituation %d:</b> %s", lernsituation.getLernstationsNo(), lernfeld.getDescription()), 9, ""));
+                stringBuilder.append(GetHTMLCode(String.format("<b>Dauer:</b> %d", lernsituation.getuStunden()), 2, ""));
+                stringBuilder.append(GetHTMLCode(String.format("<b>ID:</b> %d", lernsituation.getLsID()), 1, ""));
+                stringBuilder.append(GetHTMLCode(String.format("<b>Fach:</b> %s", lernsituation.getSzenario()), 12, ""));
+            }
+        }
+
+        content = content.replace(Placeholder.FOREACH_LERNSITUATION, "dssadasd");
+        //content = content.replace(Placeholder.FOREACH_LERNSITUATION, stringBuilder.toString());
         htmlWorker.parse(new StringReader(content));
     }
 
+    /**
+     * Generiert den HTML Code für die Platzhalter
+     *
+     * @param value   Inhalt der Zelle
+     * @param colspan Spaltenspannweite
+     * @param style   HTML Style
+     * @return
+     */
     private String GetHTMLCode(String value, int colspan, String style) {
-        String ret = String.format("<tr><td colspan=\"%d\" style=\"%s\">%s</td></tr>", colspan, style, value);
-        return ret;
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("<tr>");
+
+        String ret = String.format("<td colspan=\"%d\" style=\"%s\">%s</td>", colspan, style, value);
+        stringBuilder.append(ret);
+
+        stringBuilder.append("</tr>");
+        return stringBuilder.toString();
     }
 }

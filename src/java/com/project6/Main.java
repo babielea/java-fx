@@ -36,8 +36,6 @@ public class Main extends Application {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        //pdf.Start(new ArrayList<Lernfeld>());
     }
 
 

@@ -20,21 +20,10 @@ public class Lernsituation {
     private String uMaterial;
     private String organisation;
     private String ersteller;
-    private Date creted;
+    private String creted;
+    private int lsID;
 
-    public Lernsituation(String name,
-                         int lernstationsNo,
-                         int uStunden,
-                         int von,
-                         int bis,
-                         String szenario,
-                         String handlungsprodukt,
-                         String kompetenzen,
-                         String inhalt,
-                         String uMaterial,
-                         String organisation,
-                         String ersteller,
-                         Date creted) {
+    public Lernsituation(String name, int lernstationsNo, int uStunden, int von, int bis, String szenario, String handlungsprodukt, String kompetenzen, String inhalt, String uMaterial, String organisation, String ersteller, String creted, int lsID) {
         this.name = name;
         this.lernstationsNo = lernstationsNo;
         this.uStunden = uStunden;
@@ -48,6 +37,7 @@ public class Lernsituation {
         this.organisation = organisation;
         this.ersteller = ersteller;
         this.creted = creted;
+        this.lsID = lsID;
     }
 
     public String getName() {
@@ -98,7 +88,11 @@ public class Lernsituation {
         return ersteller;
     }
 
-    public Date getCreted() {
+    public String getCreted() {
         return creted;
+    }
+
+    public int getLsID() {
+        return lsID;
     }
 }
