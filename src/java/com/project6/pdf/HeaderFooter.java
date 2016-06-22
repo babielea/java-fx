@@ -2,20 +2,18 @@ package com.project6.pdf;
 
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.ColumnText;
-import com.lowagie.text.pdf.PdfPTable;
+
 import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
-import com.sun.org.apache.bcel.internal.util.ClassLoader;
 
-import javax.print.attribute.standard.PagesPerMinute;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Eigenes Event, um die Header/Footer zu erstellen
  * Created by RottsiK on 21.06.2016.
  */
-public class HeaderFooter extends PdfPageEventHelper {
+class HeaderFooter extends PdfPageEventHelper {
     /**
      * Seitenanzahl
      */
@@ -27,6 +25,7 @@ public class HeaderFooter extends PdfPageEventHelper {
      * @param writer   PdfWriter
      * @param document Document
      */
+    @Override
     public void onStartPage(PdfWriter writer, Document document) {
 
         //TODO: Wenn Zeit ist, dann Logo in Header
@@ -51,11 +50,9 @@ public class HeaderFooter extends PdfPageEventHelper {
      * @param writer   PdfWriter
      * @param document Document
      */
+    @Override
     public void onEndPage(PdfWriter writer, Document document) {
         Rectangle rect = writer.getBoxSize("headFooter");
-//        ColumnText.showTextAligned(writer.getDirectContent(),
-//                Element.ALIGN_RIGHT, new Phrase(chunk),
-//                rect.getRight(), rect.getTop(), 0);
 
         //Wenn true => Dokument ist im Hochformat
         //Wenn false => Dokument ist im Querformat
@@ -68,7 +65,7 @@ public class HeaderFooter extends PdfPageEventHelper {
             //Mitte Seitenanzahl
             ColumnText.showTextAligned(writer.getDirectContent(),
                     Element.ALIGN_CENTER, new Phrase(String.format("Seite %d", pagenumber)),
-                    (rect.getLeft() + rect.getRight() - 175), rect.getBottom() - 25, 0);
+                    rect.getLeft() + rect.getRight() - 175, rect.getBottom() - 25, 0);
         }
 
         //Links aktuelles Datum

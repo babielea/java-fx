@@ -24,7 +24,10 @@ public class Database {
     public static Connection getInstance() {
         return connection;
     }
-
+    /**
+     * Erstellt eine Datenbankverbindung zur MySQL Datenbank
+     * @return connection
+     */
     private static Connection makeConnection() {
         DB_USERNAME = ConfigLoader.getUsername();
         DB_PASSWORD = ConfigLoader.getPassword();

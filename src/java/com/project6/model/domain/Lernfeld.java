@@ -1,84 +1,107 @@
 package com.project6.model.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sulik.fabian on 22.06.2016.
+ * Lernfeld
+ * Created by rottsik on 22.06.2016.
  */
 public class Lernfeld {
 
-    List<Lernsituation> lsList;
-    private String preName;
-    private int lfNR;
-    private String bezeichnung;
-    private int dauer;
+    /**
+     * Lernsituationen eines Lernfelds
+     */
+    private List<Lernsituation> lernsituationen;
+
+    /**
+     * Bezeichnung
+     */
+    private String description;
+
+    /**
+     * Namedefault
+     */
+    private String nameDefault;
+
+    /**
+     * Lernfeldnummer
+     */
+    private int lernfeldNumber;
+
+    /**
+     * Dauer des Lernfelds in UStunden
+     */
+    private int lernfeldDuration;
+
+    /**
+     * Beginn in Unterrichtswochen
+     */
     private int start;
-    private int ende;
 
-    public Lernfeld(List<Lernsituation> lsList, String preName, int lfNR, String bezeichnung, int dauer, int start, int ende) {
-        this.lsList = lsList;
-        this.preName = preName;
-        this.lfNR = lfNR;
-        this.bezeichnung = bezeichnung;
-        this.dauer = dauer;
+    /**
+     * Ende in Unterrichtswochen
+     */
+    private int end;
+
+    /**
+     * Fach
+     */
+    private String fach;
+
+    /**
+     * LernfeldID
+     */
+    private int lernfeldID;
+
+    public Lernfeld(List<Lernsituation> lernsituationen,
+                    String description,
+                    String nameDefault,
+                    int lernfeldNumber,
+                    int lernfeldDuration,
+                    int start,
+                    int end,
+                    String fach,
+                    int lernfeldID) {
+        this.lernsituationen = lernsituationen;
+        this.description = description;
+        this.nameDefault = nameDefault;
+        this.lernfeldNumber = lernfeldNumber;
+        this.lernfeldDuration = lernfeldDuration;
         this.start = start;
-        this.ende = ende;
+        this.end = end;
+        this.fach = fach;
+        this.lernfeldID = lernfeldID;
     }
 
-    public List<Lernsituation> getLsList() {
-        return lsList;
+    public List<Lernsituation> getLernsituationen() {
+        return lernsituationen;
     }
 
-    public void setLsList(List<Lernsituation> lsList) {
-        this.lsList = lsList;
+    public String getDescription() {
+        return description;
     }
 
-    public String getPreName() {
-        return preName;
+    public String getNameDefault() {
+        return nameDefault;
     }
 
-    public void setPreName(String preName) {
-        this.preName = preName;
+    public int getLernfeldNumber() {
+        return lernfeldNumber;
     }
 
-    public int getLfNR() {
-        return lfNR;
-    }
-
-    public void setLfNR(int lfNR) {
-        this.lfNR = lfNR;
-    }
-
-    public String getBezeichnung() {
-        return bezeichnung;
-    }
-
-    public void setBezeichnung(String bezeichnung) {
-        this.bezeichnung = bezeichnung;
-    }
-
-    public int getDauer() {
-        return dauer;
-    }
-
-    public void setDauer(int dauer) {
-        this.dauer = dauer;
+    public int getLernfeldDuration() {
+        return lernfeldDuration;
     }
 
     public int getStart() {
         return start;
     }
 
-    public void setStart(int start) {
-        this.start = start;
+    public int getEnd() {
+        return end;
     }
 
-    public int getEnde() {
-        return ende;
-    }
-
-    public void setEnde(int ende) {
-        this.ende = ende;
+    public String getFach() {
+        return fach;
     }
 }

@@ -6,6 +6,9 @@ package com.project6.pdf;
  */
 public class Placeholder {
 
+    private Placeholder() {
+    }
+
     public static final String IMAGEPATH = "{{Image_Placeholder}}";
     public static final String YEAROFAPPRENTICESHIP = "{{Ausbildungsjahr}}";
     public static final String QUALIFIEDJOB = "{{Ausbildungsberuf}}";
