@@ -143,7 +143,7 @@ public class MainGuiController {
         System.out.println("CLICKED HELP");
         Stage stage = new Stage();
         stage.setTitle("Autentifizierung");
-        stage.initStyle(StageStyle.UTILITY);
+        stage.initStyle(StageStyle.DECORATED);
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("/fxml/help.fxml"));
@@ -160,7 +160,7 @@ public class MainGuiController {
     public void onSettingsClicked() {
         Stage stage = new Stage();
         stage.setTitle("Autentifizierung");
-        stage.initStyle(StageStyle.UTILITY);
+        stage.initStyle(StageStyle.DECORATED);
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("/fxml/settings.fxml"));

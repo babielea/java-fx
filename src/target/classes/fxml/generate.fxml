@@ -4,62 +4,45 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project6.gui.GUIController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project6.gui.MainGuiController">
     <children>
-        <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
-            <tabs>
-                <Tab text="PDF Wizard">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <children>
-                                <ListView fx:id="listViewJob" layoutX="14.0" layoutY="76.0" prefHeight="230.0" prefWidth="200.0" />
-                                <ListView layoutX="386.0" layoutY="76.0" prefHeight="230.0" prefWidth="200.0" />
-                                <Label layoutX="52.0" layoutY="47.0" text="Ausbildungsberuf" textFill="WHITE">
-                                    <font>
-                                        <Font size="16.0" />
-                                    </font>
-                                </Label>
-                                <Label layoutX="418.0" layoutY="47.0" text="Ausbildungsbeginn" textFill="WHITE">
-                                    <font>
-                                        <Font size="16.0" />
-                                    </font>
-                                </Label>
-                                <ProgressBar fx:id="pdfProgress" layoutX="128.0" layoutY="327.0" prefHeight="18.0" prefWidth="461.0" progress="0.0" />
-                                <Button layoutX="14.0" layoutY="323.0" mnemonicParsing="false" onMouseClicked="#onPdfGenerateClick" prefHeight="25.0" prefWidth="101.0" text="PDF generieren" />
-                                <ImageView fitHeight="93.0" fitWidth="59.0" layoutX="253.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../image/light-gray.png" />
-                                    </image>
-                                    <effect>
-                                        <ColorAdjust brightness="-0.5" />
-                                    </effect>
-                                </ImageView>
-                                <ImageView fitHeight="93.0" fitWidth="59.0" layoutX="297.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../image/light-gray.png" />
-                                    </image>
-                                    <effect>
-                                        <ColorAdjust brightness="-0.5" />
-                                    </effect>
-                                </ImageView>
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </Tab>
-                <Tab text="Konfiguration">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                </Tab>
-            </tabs>
-        </TabPane>
+        <Rectangle fill="#282828" height="400.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="600.0" />
+        <ListView fx:id="listViewJob" editable="true" layoutX="14.0" layoutY="53.0" prefHeight="286.0" prefWidth="200.0" />
+        <ListView fx:id="listViewYear" layoutX="386.0" layoutY="53.0" prefHeight="286.0" prefWidth="200.0" />
+        <Label layoutX="52.0" layoutY="26.0" text="Ausbildungsberuf" textFill="WHITE">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <Label layoutX="401.0" layoutY="26.0" text="Ausbildungsbeginn" textFill="WHITE">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <ProgressBar fx:id="pdfProgress" layoutX="125.0" layoutY="357.0" prefHeight="18.0" prefWidth="461.0" progress="0.0" />
+        <Button layoutX="14.0" layoutY="354.0" mnemonicParsing="false" onMouseClicked="#onPdfGenerateClick" prefHeight="25.0" prefWidth="101.0" text="PDF generieren" />
+        <ImageView fitHeight="93.0" fitWidth="59.0" layoutX="252.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../image/light-gray.png" />
+            </image>
+            <effect>
+                <ColorAdjust brightness="-0.5" />
+            </effect>
+        </ImageView>
+        <ImageView fitHeight="93.0" fitWidth="59.0" layoutX="290.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../image/light-gray.png" />
+            </image>
+            <effect>
+                <ColorAdjust brightness="-0.5" />
+            </effect>
+        </ImageView>
     </children>
 </AnchorPane>
