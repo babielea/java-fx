@@ -1,6 +1,5 @@
 package com.project6;
 
-import com.project6.config.ConfigLoader;
 import com.project6.model.dao.DetailFieldLoader;
 import com.project6.model.domain.DataForCover;
 import com.project6.model.domain.Lernfeld;
@@ -12,11 +11,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.File;
-import java.net.URL;
-import java.util.Properties;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main extends Application {

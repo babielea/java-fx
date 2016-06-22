@@ -24,7 +24,7 @@ public class FXUtils {
     @SuppressWarnings("unchecked")
     public static <T> T getChildByID(Parent parent, String id) {
 
-        String nodeId = null;
+        String nodeId;
 
         if (parent instanceof TitledPane) {
             TitledPane titledPane = (TitledPane) parent;

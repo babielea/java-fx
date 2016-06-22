@@ -12,7 +12,7 @@ import java.util.List;
  * Hilfsklasse für die Dateiverarbeitung
  * Created by RottsiK on 21.06.2016.
  */
-public class FileManager {
+class FileManager {
 
     /**
      * Liest den Inhalt aus einer Datei aus.
@@ -22,7 +22,7 @@ public class FileManager {
      * @throws IOException
      * @throws IllegalArgumentException Dateiname ist NULL oder leer
      */
-    public List<String> readFile(String filename) throws IOException, IllegalArgumentException {
+    private List<String> readFile(String filename) throws IOException, IllegalArgumentException {
         if (filename == null || filename.isEmpty())
             throw new IllegalArgumentException("Der Dateiname darf nicht NULL oder leer sein.");
 
@@ -39,17 +39,13 @@ public class FileManager {
      * @return Inhalt der Datei
      * @throws IOException
      */
-    public String getFullFileContent(String filename) throws IOException {
+    String getFullFileContent(String filename) throws IOException {
         java.util.List<String> fileContent = readFile(filename);
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (String con : fileContent) {
-            stringBuilder.append(con);
-        }
+        fileContent.forEach(stringBuilder::append);
 
-        String content = stringBuilder.toString();
-
-        return content;
+        return stringBuilder.toString();
     }
 
     /**

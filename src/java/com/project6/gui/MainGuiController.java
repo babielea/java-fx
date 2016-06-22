@@ -100,7 +100,6 @@ public class MainGuiController {
             listViewJob.setItems(strings);
 
 
-
         } else {
             resetInputFields();
             errorMessage.show(confirmButton, confirmButton.getTranslateX(), confirmButton.getTranslateY());

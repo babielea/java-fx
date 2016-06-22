@@ -13,7 +13,6 @@ import java.sql.*;
  */
 public class UserDAO {
     private Connection connection = Database.getInstance();
-    private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
     private User user;
