@@ -207,7 +207,7 @@ public class PdfCreator {
                 stringBuilder.append("<table style=\"width:100%\" border=\"1\">");
 
                 stringBuilder.append(GetHTMLCode(String.format("<b>Fach:</b> %s", lernfeld.getFach()), 12, ""));
-                stringBuilder.append(GetHTMLCode(String.format("<b>Lernfeld</b> %s", lernfeld.getLernfeldNumber(), lernfeld.getDescription()), 12, ""));
+                stringBuilder.append(GetHTMLCode(String.format("<b>Lernfeld %d</b> %s", lernfeld.getLernfeldNumber(), lernfeld.getDescription()), 12, ""));
                 stringBuilder.append(GetHTMLCode(String.format("<b>Lernsituation %d:</b> %s", lernsituation.getLernstationsNo(), lernfeld.getDescription()), 9, ""));
                 stringBuilder.append(GetHTMLCode(String.format("<b>Dauer:</b> %d", lernsituation.getuStunden()), 2, ""));
                 stringBuilder.append(GetHTMLCode(String.format("<b>ID:</b> %d", lernsituation.getLsID()), 1, ""));
@@ -232,7 +232,7 @@ public class PdfCreator {
      * @param value   Inhalt der Zelle
      * @param colspan Spaltenspannweite
      * @param style   HTML Style
-     * @return
+     * @return Irgendetwas
      */
     private String GetHTMLCode(String value, int colspan, String style) {
         StringBuilder stringBuilder = new StringBuilder();
