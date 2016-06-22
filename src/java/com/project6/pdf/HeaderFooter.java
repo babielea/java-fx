@@ -13,7 +13,7 @@ import java.util.Date;
  * Eigenes Event, um die Header/Footer zu erstellen
  * Created by RottsiK on 21.06.2016.
  */
-public class HeaderFooter extends PdfPageEventHelper {
+class HeaderFooter extends PdfPageEventHelper {
     /**
      * Seitenanzahl
      */
@@ -25,6 +25,7 @@ public class HeaderFooter extends PdfPageEventHelper {
      * @param writer   PdfWriter
      * @param document Document
      */
+    @Override
     public void onStartPage(PdfWriter writer, Document document) {
 
         //TODO: Wenn Zeit ist, dann Logo in Header
@@ -49,6 +50,7 @@ public class HeaderFooter extends PdfPageEventHelper {
      * @param writer   PdfWriter
      * @param document Document
      */
+    @Override
     public void onEndPage(PdfWriter writer, Document document) {
         Rectangle rect = writer.getBoxSize("headFooter");
 
