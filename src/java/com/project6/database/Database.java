@@ -10,9 +10,9 @@ import java.sql.SQLException;
 public class Database {
     private static Connection connection = makeConnection();
 
-    private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "";
-    private static final String DB_HOST = "localhost:3306";
+    private static String DB_USERNAME = "root";
+    private static String DB_PASSWORD = "";
+    private static String DB_HOST = "localhost:3306";
 
     public static Connection getInstance() {
         return connection;

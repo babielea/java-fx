@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
@@ -27,7 +29,14 @@
                      <tooltip>
                         <Tooltip fx:id="errorMessage" text="Benutzername oder Passwort ist falsch" />
                      </tooltip></Button>
-                        <Button layoutX="79.0" layoutY="98.0" mnemonicParsing="false" onMouseClicked="#onResetClick" text="Zurücksetzen" />
+                        <Button layoutX="79.0" layoutY="98.0" mnemonicParsing="false" onMouseClicked="#onResetClick" text="Zurücksetzen">
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu></Button>
                     </children>
                 </AnchorPane>
                 <Label layoutX="136.0" layoutY="28.0" text="Anmeldung" textFill="#d0d0d0">
@@ -36,6 +45,7 @@
                     </font>
                 </Label>
                 <Button layoutX="353.0" layoutY="269.0" mnemonicParsing="false" onMouseClicked="#onHelpClick" text="Hilfe" />
+            <Button layoutX="7.0" layoutY="269.0" mnemonicParsing="false" onMouseClicked="#onSettingsClicked" text="Einstellungen" />
             </children>
         </AnchorPane>
     </children>

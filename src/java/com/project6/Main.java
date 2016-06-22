@@ -1,12 +1,16 @@
 package com.project6;
 
-import com.project6.pdf.PdfCreator;
+import com.project6.config.ConfigLoader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.io.File;
+import java.net.URL;
+import java.util.Properties;
 
 public class Main extends Application {
 
@@ -19,8 +23,11 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
 
-        PdfCreator pdf = new PdfCreator();
-        pdf.Start();
+
+        Properties props = ConfigLoader.getConfig();
+
+/*        PdfCreator pdf = new PdfCreator();
+        pdf.Start();*/
     }
 
 

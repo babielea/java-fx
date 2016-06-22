@@ -1,11 +1,11 @@
 package com.project6.gui;
 
+import com.project6.config.ConfigLoader;
 import com.project6.gui.util.ProgressBarHelper;
 import com.project6.model.dao.UserDAO;
 import com.project6.model.domain.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,7 +15,10 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Properties;
 
 public class GUIController {
 
@@ -26,10 +29,10 @@ public class GUIController {
     GridPane container;
 
     @FXML
-    TextField valueUsername;
+    TextField valueUsername, settingsHost, settingsPort, settingsDB, settingsUsername;
 
     @FXML
-    PasswordField valuePassword;
+    PasswordField valuePassword, settingsPassword;
 
     @FXML
     ProgressBar pdfProgress;
@@ -54,7 +57,7 @@ public class GUIController {
         User user = new User(valueUsername.getText(), valuePassword.getText());
         UserDAO peter = new UserDAO(user);
 
-        if(peter.checkForLogin()) {
+        if (peter.checkForLogin()) {
             Stage stage = new Stage();
             stage.setTitle("Autentifizierung");
             stage.initStyle(StageStyle.UTILITY);
@@ -73,7 +76,7 @@ public class GUIController {
             main.close();
         } else {
             resetInputFields();
-            errorMessage.show(confirmButton, confirmButton.getTranslateX(), confirmButton.getTranslateY() );
+            errorMessage.show(confirmButton, confirmButton.getTranslateX(), confirmButton.getTranslateY());
         }
 
 
@@ -124,5 +127,49 @@ public class GUIController {
         stage.setScene(new Scene(root, 200, 200));
         stage.setResizable(false);
         stage.show();
+    }
+
+    @FXML
+    public void onSettingsClicked() {
+        Stage stage = new Stage();
+        stage.setTitle("Autentifizierung");
+        stage.initStyle(StageStyle.UTILITY);
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/fxml/settings.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        stage.setScene(new Scene(root, 352, 275));
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    @FXML
+    public void onSettingsResetClicked() {
+        settingsHost.clear();
+        settingsPort.clear();
+        settingsDB.clear();
+        settingsUsername.clear();
+        settingsPassword.clear();
+    }
+
+    @FXML
+    public void onSettingsSaveClicked() {
+
+        String host = settingsHost.getText();
+        String port = settingsPort.getText();
+        String dB = settingsDB.getText();
+        String username = settingsUsername.getText();
+        String password = settingsPassword.getText();
+
+        Properties properties = new Properties();
+        properties.setProperty("database.host", host);
+        properties.setProperty("database.port", port);
+        properties.setProperty("database.name", dB);
+        properties.setProperty("database.username", username);
+        properties.setProperty("database.password", password);
+        ConfigLoader.getInstance().saveConfig(properties);
     }
 }
