@@ -54,4 +54,44 @@ public class ConfigLoader {
             // I/O error
         }
     }
+
+    public static String getPassword() {
+        return password;
+    }
+
+    public static void setPassword(String password) {
+        ConfigLoader.password = password;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        ConfigLoader.username = username;
+    }
+
+    public static String getDbname() {
+        return dbname;
+    }
+
+    public static void setDbname(String dbname) {
+        ConfigLoader.dbname = dbname;
+    }
+
+    public static String getPort() {
+        return port;
+    }
+
+    public static void setPort(String port) {
+        ConfigLoader.port = port;
+    }
+
+    public static String getHostname() {
+        return hostname;
+    }
+
+    public static void setHostname(String hostname) {
+        ConfigLoader.hostname = hostname;
+    }
 }

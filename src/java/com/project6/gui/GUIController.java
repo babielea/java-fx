@@ -2,8 +2,12 @@ package com.project6.gui;
 
 import com.project6.config.ConfigLoader;
 import com.project6.gui.util.ProgressBarHelper;
+import com.project6.model.dao.DetailFieldLoader;
 import com.project6.model.dao.UserDAO;
+import com.project6.model.domain.Ausbildungsberuf;
 import com.project6.model.domain.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,6 +22,7 @@ import javafx.stage.StageStyle;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Properties;
 
 public class GUIController {
@@ -42,6 +47,9 @@ public class GUIController {
 
     @FXML
     Button confirmButton;
+
+    @FXML
+    ListView<String> listViewJob;
 
     @FXML
     public void onAnyKeyPressedHandler(KeyEvent event) {
@@ -74,6 +82,14 @@ public class GUIController {
 
             Stage main = (Stage) container.getScene().getWindow();
             main.close();
+
+            ObservableList<String> strings = FXCollections.observableArrayList();
+            DetailFieldLoader detailFieldLoader = new DetailFieldLoader();
+            ArrayList<Ausbildungsberuf> ausbildungsberufs = (ArrayList<Ausbildungsberuf>) detailFieldLoader.getBerufe();
+            for (Ausbildungsberuf ausbildungsberuf : ausbildungsberufs) {
+                strings.add(ausbildungsberuf.getBeruf());
+            }
+            listViewJob.setItems(strings);
         } else {
             resetInputFields();
             errorMessage.show(confirmButton, confirmButton.getTranslateX(), confirmButton.getTranslateY());
