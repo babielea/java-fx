@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /**
- * Hilfsklasse für die Dateibearbeitung
+ * Hilfsklasse für die Dateiverarbeitung
  * Created by RottsiK on 21.06.2016.
  */
 public class FileManager {
@@ -34,12 +34,13 @@ public class FileManager {
 
     /**
      * Liest den kompletten Inhalt aus der Datei und gibt diesen als String zurück
+     *
      * @param filename Dateiname der zu lesenden Datei
      * @return Inhalt der Datei
      * @throws IOException
      */
     public String getFullFileContent(String filename) throws IOException {
-        java.util.List<String> fileContent =  readFile(filename);
+        java.util.List<String> fileContent = readFile(filename);
         StringBuilder stringBuilder = new StringBuilder();
 
         for (String con : fileContent) {
@@ -69,8 +70,7 @@ public class FileManager {
             file.createNewFile();
 
 
-        try (FileWriter fileWriter = new FileWriter(file))
-        {
+        try (FileWriter fileWriter = new FileWriter(file)) {
             fileWriter.write(text);
         }
     }

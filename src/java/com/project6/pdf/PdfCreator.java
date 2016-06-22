@@ -4,7 +4,6 @@ import com.lowagie.text.*;
 import com.lowagie.text.html.simpleparser.HTMLWorker;
 import com.lowagie.text.pdf.PdfWriter;
 
-import javax.print.attribute.standard.PagesPerMinute;
 import java.io.*;
 import java.util.Date;
 
@@ -37,6 +36,7 @@ public class PdfCreator {
      */
     private FileManager fileManager = new FileManager();
 
+
     public void Start() throws IOException, DocumentException {
 
         Document doc = new Document(PageSize.A4);
@@ -51,8 +51,10 @@ public class PdfCreator {
         writer.setPageEvent(event);
 
         doc.open();
-        doc.addCreator("HHBK PDF-Creator 2016");
-        doc.addAuthor("HHBK");
+        doc.addCreator("PDF-Creator © HHBK 2016 (Rottsieper, Aslan, Sulik, Klemm)");
+        //TODO: angemeldeten Benutzer
+        doc.addAuthor("");
+        doc.addTitle("Didaktischer Wizard - Übersicht");
 
         //Deckblatt erstellen
         //TODO: MUSS GEÄNDERT WERDEN
