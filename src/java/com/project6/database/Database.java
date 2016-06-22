@@ -1,34 +1,38 @@
 package com.project6.database;
 
-import com.project6.model.domain.User;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
- * Created by RottsiK on 20.06.2016.
+ * Created by sulik.fabian on 21.06.2016.
  */
-public class Database implements IDatabase {
+public class Database {
+    private static Connection connection = makeConnection();
 
-    private final String DB_USERNAME = "root";
-    private final String DB_PASSWORD = "toor";
-    private final String DB_HOST = "localhost:3306";
+    private static final String DB_USERNAME = "root";
+    private static final String DB_PASSWORD = "toor";
+    private static final String DB_HOST = "localhost:3306";
 
-    private Connection connect = null;
-    private Statement statement = null;
-    private PreparedStatement preparedStatement = null;
-    private ResultSet resultSet = null;
-
-    public Database() throws SQLException, ClassNotFoundException {
-        Initialize();
+    public static Connection getInstance() {
+        return connection;
     }
 
-    public void Initialize() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        connect = DriverManager.getConnection("jdbc:mysql://" + DB_HOST + "/didakt?user=" + DB_USERNAME
-                + "&password=" + DB_PASSWORD);
+    private Database() {
     }
 
-    public Boolean Login(User user) {
+    private static Connection makeConnection()  {
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            return DriverManager.getConnection("jdbc:mysql://" + DB_HOST + "/didakt?user=" + DB_USERNAME
+                    + "&password=" + DB_PASSWORD);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return null;
+
     }
 }

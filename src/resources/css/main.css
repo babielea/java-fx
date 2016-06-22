@@ -1,0 +1,34 @@
+.labelListView {
+    -fx-font-size: 15px;
+}
+
+.paneListView {
+    -fx-min-width: 20%;
+    -fx-max-width: 20%;
+}
+
+#tabsView {
+    -fx-background-color: #282828;
+}
+
+#tabsView .labelListView {
+    -fx-text-fill: white;
+}
+
+.labelArrowRight {
+    -fx-text-fill: lightgray;
+    -fx-border-insets: 10%;
+    -fx-font-size: 60px;
+
+}
+
+.progress-bar > .bar {
+    -fx-background-color: linear-gradient(
+            from 0px .75em to .75em 0px,
+            repeat,
+            -fx-accent 0%,
+            -fx-accent 49%,
+            derive(-fx-accent, 30%) 50%,
+            derive(-fx-accent, 30%) 99%
+    );
+}
