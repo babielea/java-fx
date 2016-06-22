@@ -1,145 +1,104 @@
 package com.project6.model.domain;
 
 import javax.print.DocFlavor;
+import java.util.Date;
 
 /**
- * Created by sulik.fabian on 22.06.2016.
+ * Created by rottsik on 22.06.2016.
  */
 public class Lernsituation {
 
-    private int lsID;
+    private String name;
+    private int lernstationsNo;
+    private int uStunden;
+    private int von;
+    private int bis;
     private String szenario;
     private String handlungsprodukt;
     private String kompetenzen;
-    private String inhalte;
+    private String inhalt;
     private String uMaterial;
     private String organisation;
-    private String arbeitstechnik;
-    private String leistungsnachweis;
     private String ersteller;
-    private int von;
-    private int bis;
-    private int stunden;
+    private Date creted;
 
-
-    public Lernsituation(int lsID, String szenario, String handlungsprodukt,
-                         String kompetenzen, String inhalte, String uMaterial,
-                         String organisation, String arbeitstechnik,
-                         String leistungsnachweis, String ersteller,
-                         int von, int bis, int stunden) {
-        this.lsID = lsID;
+    public Lernsituation(String name,
+                         int lernstationsNo,
+                         int uStunden,
+                         int von,
+                         int bis,
+                         String szenario,
+                         String handlungsprodukt,
+                         String kompetenzen,
+                         String inhalt,
+                         String uMaterial,
+                         String organisation,
+                         String ersteller,
+                         Date creted) {
+        this.name = name;
+        this.lernstationsNo = lernstationsNo;
+        this.uStunden = uStunden;
+        this.von = von;
+        this.bis = bis;
         this.szenario = szenario;
         this.handlungsprodukt = handlungsprodukt;
         this.kompetenzen = kompetenzen;
-        this.inhalte = inhalte;
+        this.inhalt = inhalt;
         this.uMaterial = uMaterial;
         this.organisation = organisation;
-        this.arbeitstechnik = arbeitstechnik;
-        this.leistungsnachweis = leistungsnachweis;
         this.ersteller = ersteller;
+        this.creted = creted;
     }
 
-    public int getLsID() {
-        return lsID;
+    public String getName() {
+        return name;
     }
 
-    public void setLsID(int lsID) {
-        this.lsID = lsID;
+    public int getLernstationsNo() {
+        return lernstationsNo;
     }
 
-    public String getSzenario() {
-        return szenario;
-    }
-
-    public void setSzenario(String szenario) {
-        this.szenario = szenario;
-    }
-
-    public String getHandlungsprodukt() {
-        return handlungsprodukt;
-    }
-
-    public void setHandlungsprodukt(String handlungsprodukt) {
-        this.handlungsprodukt = handlungsprodukt;
-    }
-
-    public String getKompetenzen() {
-        return kompetenzen;
-    }
-
-    public void setKompetenzen(String kompetenzen) {
-        this.kompetenzen = kompetenzen;
-    }
-
-    public String getInhalte() {
-        return inhalte;
-    }
-
-    public void setInhalte(String inhalte) {
-        this.inhalte = inhalte;
-    }
-
-    public String getuMaterial() {
-        return uMaterial;
-    }
-
-    public void setuMaterial(String uMaterial) {
-        this.uMaterial = uMaterial;
-    }
-
-    public String getOrganisation() {
-        return organisation;
-    }
-
-    public void setOrganisation(String organisation) {
-        this.organisation = organisation;
-    }
-
-    public String getArbeitstechnik() {
-        return arbeitstechnik;
-    }
-
-    public void setArbeitstechnik(String arbeitstechnik) {
-        this.arbeitstechnik = arbeitstechnik;
-    }
-
-    public String getLeistungsnachweis() {
-        return leistungsnachweis;
-    }
-
-    public void setLeistungsnachweis(String leistungsnachweis) {
-        this.leistungsnachweis = leistungsnachweis;
-    }
-
-    public String getErsteller() {
-        return ersteller;
-    }
-
-    public void setErsteller(String ersteller) {
-        this.ersteller = ersteller;
+    public int getuStunden() {
+        return uStunden;
     }
 
     public int getVon() {
         return von;
     }
 
-    public void setVon(int von) {
-        this.von = von;
-    }
-
     public int getBis() {
         return bis;
     }
 
-    public void setBis(int bis) {
-        this.bis = bis;
+    public String getSzenario() {
+        return szenario;
     }
 
-    public int getStunden() {
-        return stunden;
+    public String getHandlungsprodukt() {
+        return handlungsprodukt;
     }
 
-    public void setStunden(int stunden) {
-        this.stunden = stunden;
+    public String getKompetenzen() {
+        return kompetenzen;
+    }
+
+    public String getInhalt() {
+        return inhalt;
+    }
+
+    public String getuMaterial() {
+        return uMaterial;
+    }
+
+    public String getOrganisation() {
+        return organisation;
+    }
+
+    public String getErsteller() {
+        return ersteller;
+    }
+
+    public Date getCreted() {
+        return creted;
     }
 }

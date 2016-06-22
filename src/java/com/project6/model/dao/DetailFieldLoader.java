@@ -3,28 +3,35 @@ package com.project6.model.dao;
 import com.project6.database.Database;
 import com.project6.model.domain.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
+ * Hilfklasse zur Bearbeitung der Datenbank Operationen
  * Created by sulik.fabian on 21.06.2016.
  */
 public class DetailFieldLoader {
 
+    /**
+     * Sichere PreparedStatements
+     */
     private PreparedStatement preparedStatement = null;
+
+    /**
+     * Ergebnisse der Queries
+     */
     private ResultSet resultSet = null;
 
+    /**
+     * Datenbankverbindung
+     */
     private Connection connection = Database.getInstance();
 
     public DetailFieldLoader() {
     }
-
 
     public List<Ausbildungsberuf> getBerufe() {
 
@@ -97,72 +104,130 @@ public class DetailFieldLoader {
         return fachResults;
     }
 
-
-    public List<Lernsituation> getLernsituation(int lfID) {
-
+    public List<Lernsituation> getLernsituation(int lfID) throws SQLException {
         List<Lernsituation> lsResults = new ArrayList<>();
 
-        try {
-            preparedStatement = connection.prepareStatement("SELECT ls.LSNR, ls.Szenario, ls.Handlungsprodukt, " +
-                    "ls.Kompetenzen, ls.Inhalte, ls.Umaterial, ls.Organisation, ls.Arbeitstechnik, ln.Art,  ls.Ersteller, " +
-                    "ls.Von, ls.Bis, ls.UStunden" +
-                    " FROM tbl_lernsituation ls " +
-                    "JOIN tbl_lernsituationleistungsnachweis lsln ON ls.LSID = lsln.id_lernsituation " +
-                    "JOIN tbl_leistungsnachweis ln ON lsln.ID_Leistungsnachweis = ln.LNID" +
-                    "WHERE (ls.ID_Lernfeld = ?);");
-            preparedStatement.setInt(1, lfID);
-            resultSet = preparedStatement.executeQuery();
+        String sql = "";
 
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, lfID);
+        resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-                int lsID = resultSet.getInt(1);
-                String szenario = resultSet.getString(2);
-                String handlungsprodukt = resultSet.getString(3);
-                String kompetenzen = resultSet.getString(4);
-                String inhalte = resultSet.getString(5);
-                String umaterial = resultSet.getString(6);
-                String organisation = resultSet.getString(7);
-                String arbeitstechnik = resultSet.getString(8);
-                String leistungsnachweis = resultSet.getString(9);
-                String ersteller = resultSet.getString(10);
-                int von = resultSet.getInt(11);
-                int bis = resultSet.getInt(12);
-                int stunden = resultSet.getInt(13);
-                lsResults.add(new Lernsituation(lsID, szenario, handlungsprodukt, kompetenzen,
-                        inhalte, umaterial, organisation, arbeitstechnik, leistungsnachweis, ersteller, von ,bis, stunden));
+        while (resultSet.next()) {
+            //resultSet.get
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return lsResults;
     }
 
+    /**
+     * Liest alle nötigen Informationen für das Deckblatt aus der Datenbank aus.
+     * Ausbildungsjahr, Ausbildungsberuf, Bildungsgangsleitung und Bereichsleitung
+     *
+     * @param yearOfApprentice Ausbildungsjahr
+     * @param apprenticeJobID  Ausbildungsberuf
+     * @return
+     * @throws SQLException
+     */
+    public DataForCover getDataForCover(int yearOfApprentice, int apprenticeJobID) throws SQLException {
+        DataForCover dataForCoversResult =null;
 
-    public List<Lernfeld> getLernfelder() {
+        String sql = "SELECT " +
+                "b.Berufname," +
+                "CONCAT(IF(l.Geschlecht = 'M', 'Herr', 'Frau'), ' ', l.Lehrername) AS Bildungsgangsleitung," +
+                "CONCAT(IF(l.Geschlecht = 'M', 'Herr', 'Frau'), ' ', l2.Lehrername) AS Bereichsleitung " +
+                "FROM tbl_beruf AS b " +
+                "INNER JOIN tbl_lehrer AS l ON b.ID_BLeitung = l.LId " +
+                "INNER JOIN tbl_abteilung AS a ON b.ID_Abteilung = a.AId " +
+                "INNER JOIN tbl_lehrer AS l2 ON a.ID_Leiter = l2.LId " +
+                "WHERE b.BId = ?;";
 
-        List<Lernfeld> lfResults = new ArrayList<>();
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, apprenticeJobID);
+        resultSet = preparedStatement.executeQuery();
 
-        try {
-            preparedStatement = connection.prepareStatement("SELECT PraefixName ,LFNR, Bezeichnung, LFDauer ,Start, Ende " +
-                    "FROM tbl_lernfeld " +
-                    "ORDER BY ID_Beruffach;");
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                String preName = resultSet.getString(1);
-                int lfNR = resultSet.getInt(2);
-                String bezeichnung = resultSet.getString(3);
-                int dauer = resultSet.getInt(4);
-                int start = resultSet.getInt(5);
-                int ende = resultSet.getInt(6);
-                lfResults.add(new Lernfeld(new ArrayList<Lernsituation>(getLernsituation(lfNR)),preName, lfNR, bezeichnung, dauer, start, ende));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        while (resultSet.next()) {
+            String apprenticeJob = resultSet.getString(1);
+            String bildungsgangsleitung = resultSet.getString(2);
+            String bereichsleitung = resultSet.getString(3);
+            dataForCoversResult = new DataForCover(yearOfApprentice, apprenticeJob, bildungsgangsleitung, bereichsleitung);
         }
-        return lfResults;
+
+        return dataForCoversResult;
+    }
+
+    /**
+     * Liest alle Lernfelder aus der Datenbank, abhängig vom Ausbildungsjahr und Ausbildungsberuf
+     *
+     * @param apprenticeJobID  Ausbildungsberuf ID
+     * @param yearOfApprentice Ausbildungsjahr
+     * @return
+     * @throws SQLException
+     */
+    public List<Lernfeld> getLernfelder(int apprenticeJobID, int yearOfApprentice) throws SQLException {
+        List<Lernfeld> lernfelderResults = new ArrayList<>();
+
+        String sql = "SELECT lf.Bezeichnung, sd.Namedefault, lf.LFNR, lf.LFDauer, lf.`Start`, lf.Ende, f.Bezeichnung, lf.LFID FROM tbl_lernfeld AS lf " +
+                "INNER JOIN tbl_schemadaten AS sd ON lf.LFVortitel = sd.SCHDID " +
+                "INNER JOIN tbl_beruffach AS bf ON lf.ID_BerufFach = bf.BFID " +
+                "INNER JOIN tbl_fach AS f ON bf.ID_Fach = f.FID " +
+                "WHERE lf.ID_BerufFach IN " +
+                "(SELECT bf.ID_Fach FROM tbl_uformberuf AS ufb " +
+                "INNER JOIN tbl_beruffach AS bf ON ufb.UBID = bf.ID_UFormBeruf " +
+                "WHERE ufb.ID_Beruf = ? AND ufb.UFBJahr = ?) AND " +
+                "lf.Sichtbar = true " +
+                "ORDER BY lf.ID_BerufFach";
+
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, apprenticeJobID);
+        preparedStatement.setInt(2, yearOfApprentice);
+        resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            String description = resultSet.getString(1);
+            String nameDefault = resultSet.getString(2);
+            int lfNo = resultSet.getInt(3);
+            int lfDuration = resultSet.getInt(4);
+            int lfStart = resultSet.getInt(5);
+            int lfEnd = resultSet.getInt(6);
+            String fach = resultSet.getString(7);
+            int lernfeldID = resultSet.getInt(8);
+
+            //TODO: Muss wiede rumgeändert werden
+            //lernfelderResults.add(new Lernfeld(getLernsituation(lernfeldID), description, nameDefault, lfNo, lfDuration, lfStart, lfEnd, fach, lernfeldID));
+            lernfelderResults.add(new Lernfeld(new ArrayList<>(), description, nameDefault, lfNo, lfDuration, lfStart, lfEnd, fach, lernfeldID));
+        }
+
+        return lernfelderResults;
+    }
+
+    /**
+     * Liest alle verfügbaren Lernfelder von einem Ausbildungsjahr und Ausbildungsberuf aus.
+     *
+     * @param apprenticeJob    Ausbildungsberuf
+     * @param yearOfApprentice Ausbildungsjahr
+     * @return
+     * @throws SQLException
+     * @deprecated Wurde durch eine Subquery in getLernfelder ersetzt.
+     */
+    @Deprecated
+    public List<Integer> getAvailableLernfelder(int apprenticeJob, int yearOfApprentice) throws SQLException {
+        List<Integer> availableLernfelderResults = new ArrayList<>();
+
+        String sql = "SELECT bf.ID_Fach FROM tbl_uformberuf AS ufb " +
+                "INNER JOIN tbl_beruffach AS bf ON ufb.UBID = bf.ID_UFormBeruf " +
+                "WHERE ufb.ID_Beruf = ? AND ufb.UFBJahr = ?";
+
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, apprenticeJob);
+        preparedStatement.setInt(2, yearOfApprentice);
+        resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            int lernfeld = resultSet.getInt(1);
+            availableLernfelderResults.add(lernfeld);
+        }
+
+        return availableLernfelderResults;
     }
 
 }

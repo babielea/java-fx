@@ -1,5 +1,8 @@
 package com.project6;
 
+import com.project6.model.dao.DetailFieldLoader;
+import com.project6.model.domain.DataForCover;
+import com.project6.model.domain.Lernfeld;
 import com.project6.pdf.PdfCreator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +10,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -20,7 +26,18 @@ public class Main extends Application {
         primaryStage.show();
 
         PdfCreator pdf = new PdfCreator();
-        pdf.Start();
+        try {
+            DataForCover t = new DetailFieldLoader().getDataForCover(1, 1);
+            //List<Integer> a = new DetailFieldLoader().getAvailableLernfelder(1, 1);
+            List<Lernfeld> b = new DetailFieldLoader().getLernfelder(1, 1);
+            pdf.CreatePDF(b, t);
+
+            String br = "";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        //pdf.Start(new ArrayList<Lernfeld>());
     }
 
 
